@@ -1,4 +1,4 @@
-package OrderPage;
+package pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -26,30 +26,14 @@ public class OrderContacts {
         this.driver = driver;
     }
 
-    //метод для заполенния имени
-    public void inputName(String clientName) {
+    //общий метод для заполнения контактных данных заказа
+    public void inputOrderContactDetails(String clientName, String clientSurname, String clientAddress, String clientMetroStation, String clientPhone) {
         driver.findElement(name).sendKeys(clientName);
-    }
-
-    //метод для заполнения фамилии
-    public void inputSurname(String clientSurname) {
         driver.findElement(surname).sendKeys(clientSurname);
-    }
-
-    //метод для заполнения адреса заказа
-    public void inputDeliveryAddress(String clientAddress) {
         driver.findElement(deliveryAddress).sendKeys(clientAddress);
-    }
-
-    //метод для заполнения станции метро
-    public void inputMetroStation(String clientMetroStation) {
         driver.findElement(metroStationInput).click();
         driver.findElement(metroStationInput).sendKeys(clientMetroStation);
         driver.findElement(By.xpath(".//*[@class='select-search__select']")).click();
-    }
-
-    //метод для заполнения телефона
-    public void inputContactPhone(String clientPhone) {
         driver.findElement(contactPhone).sendKeys(clientPhone);
     }
 

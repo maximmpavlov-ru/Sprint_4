@@ -1,6 +1,7 @@
-package OrderPage;
+package uitests;
 
-import HomePage.HomePage;
+import org.junit.Before;
+import pageobjects.*;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,12 +46,16 @@ public class OrderPageTests {
 
     private WebDriver driver;
 
-    @Test
-    public void orderTestWithButtonOnTheTop() {
+    @Before
+    public void runPreconditions() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         driver.get("https://qa-scooter.praktikum-services.ru/");
+    }
+
+    @Test
+    public void orderTestWithButtonOnTheTop() {
         HomePage objHomePage = new HomePage(driver);
         objHomePage.waitForPageLoad();
         objHomePage.clickOrderButtonOnTheTop();
@@ -58,20 +63,13 @@ public class OrderPageTests {
         //Заполняем данные на экране "Для кого самокат"
         OrderContacts objOrderContacts = new OrderContacts(driver);
         objOrderContacts.waitForPageLoad();
-        objOrderContacts.inputName(clientName);
-        objOrderContacts.inputSurname(clientSurname);
-        objOrderContacts.inputDeliveryAddress(clientAddress);
-        objOrderContacts.inputMetroStation(clientMetroStation);
-        objOrderContacts.inputContactPhone(clientPhone);
+        objOrderContacts.inputOrderContactDetails(clientName, clientSurname, clientAddress, clientMetroStation, clientPhone);
         objOrderContacts.clickButtonNext();
 
         //Заполняем данные на экране "Про аренду"
         OrderDetails objOrderDetails = new OrderDetails(driver);
         objOrderDetails.waitForPageLoad();
-        objOrderDetails.inputRentalStartDate(clientRentalStartDate);
-        objOrderDetails.inputRentalPeriod(clientRentalPeriod);
-        objOrderDetails.inputScooterColor(clientScooterColor);
-        objOrderDetails.inputComment(clientComment);
+        objOrderDetails.inputOrderDetails(clientRentalStartDate, clientRentalPeriod, clientScooterColor, clientComment);
         objOrderDetails.clickOrderButton();
 
         //Подтверждаем заказ
@@ -85,13 +83,8 @@ public class OrderPageTests {
         objConfirmedOrderDetails.checkOrderConfirmation();
     }
 
-
     @Test
     public void orderTestWithButtonInTheMiddle() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
-        driver = new ChromeDriver(options);
-        driver.get("https://qa-scooter.praktikum-services.ru/");
         HomePage objHomePage = new HomePage(driver);
         objHomePage.waitForPageLoad();
         objHomePage.scrollToOrderButtonInTheMiddle();
@@ -100,20 +93,13 @@ public class OrderPageTests {
         //Заполняем данные на экране "Для кого самокат"
         OrderContacts objOrderContacts = new OrderContacts(driver);
         objOrderContacts.waitForPageLoad();
-        objOrderContacts.inputName(clientName);
-        objOrderContacts.inputSurname(clientSurname);
-        objOrderContacts.inputDeliveryAddress(clientAddress);
-        objOrderContacts.inputMetroStation(clientMetroStation);
-        objOrderContacts.inputContactPhone(clientPhone);
+        objOrderContacts.inputOrderContactDetails(clientName, clientSurname, clientAddress, clientMetroStation, clientPhone);
         objOrderContacts.clickButtonNext();
 
         //Заполняем данные на экране "Про аренду"
         OrderDetails objOrderDetails = new OrderDetails(driver);
         objOrderDetails.waitForPageLoad();
-        objOrderDetails.inputRentalStartDate(clientRentalStartDate);
-        objOrderDetails.inputRentalPeriod(clientRentalPeriod);
-        objOrderDetails.inputScooterColor(clientScooterColor);
-        objOrderDetails.inputComment(clientComment);
+        objOrderDetails.inputOrderDetails(clientRentalStartDate, clientRentalPeriod, clientScooterColor, clientComment);
         objOrderDetails.clickOrderButton();
 
         //Подтверждаем заказ

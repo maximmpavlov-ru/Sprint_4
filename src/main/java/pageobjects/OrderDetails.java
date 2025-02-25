@@ -1,4 +1,4 @@
-package OrderPage;
+package pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -27,25 +27,12 @@ public class OrderDetails {
         this.driver = driver;
     }
 
-    //метод для выбора даты начала аренды
-    public void inputRentalStartDate(String clientRentalStartDate) {
+    //общим метод для заполнения полей данным
+    public void inputOrderDetails(String clientRentalStartDate, String clientRentalPeriod, String clientScooterColor, String clientComment) {
         driver.findElement(rentalStartDate).sendKeys(clientRentalStartDate);
-    }
-
-    //метод для выбора продолжительности срока аренды
-    public void inputRentalPeriod(String clientRentalPeriod) {
         driver.findElement(rentalPeriod).click();
         String selectedOption = ".//div[@class='Dropdown-option' and contains(text(),'" + clientRentalPeriod + "')]";
         driver.findElement(By.xpath(selectedOption)).click();
-    }
-
-    //метод для ввода комментария
-    public void inputComment(String clientComment) {
-        driver.findElement(comment).sendKeys(clientComment);
-    }
-
-    //метод для выбора цвета самоката
-    public void inputScooterColor(String clientScooterColor) {
         if (Objects.equals(clientScooterColor, "чёрный жемчуг")) {
             driver.findElement(scooterColorBlack).click();
         } else if (Objects.equals(clientScooterColor, "серая безысходность")) {
@@ -54,6 +41,7 @@ public class OrderDetails {
             driver.findElement(scooterColorBlack).click();
             driver.findElement(scooterColorGrey).click();
         }
+        driver.findElement(comment).sendKeys(clientComment);
     }
 
     //метод для нажатия на кнопку "Заказать"

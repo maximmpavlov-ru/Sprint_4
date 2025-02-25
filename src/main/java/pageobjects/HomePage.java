@@ -1,12 +1,11 @@
-package HomePage;
+package pageobjects;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import static org.junit.Assert.assertEquals;
 
 import java.time.Duration;
 
@@ -69,7 +68,7 @@ public class HomePage {
     //Ждем что скрытая секция отображается и сравниваем текст ответа с ожидаемым
     public void checkTexts(String ID, String text) {
         new WebDriverWait(driver, Duration.ofSeconds(5)).until(driver -> (driver.findElement(By.id(ID)).isDisplayed()));
-        assertEquals("Текст ответов не совпал", driver.findElement(By.id(ID)).getText(), text);
+        Assert.assertEquals("Текст ответов не совпал", driver.findElement(By.id(ID)).getText(), text);
     }
 
 

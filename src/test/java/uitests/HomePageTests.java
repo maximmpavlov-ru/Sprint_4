@@ -1,12 +1,14 @@
-package HomePage;
+package uitests;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import pageobjects.HomePage;
 
 @RunWith(Parameterized.class)
 public class HomePageTests {
@@ -39,12 +41,16 @@ public class HomePageTests {
 
     private WebDriver driver;
 
-    @Test
-    public void FAQSectionTest() {
+    @Before
+    public void runPreconditions() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox", "--headless", "--disable-dev-shm-usage");
         driver = new ChromeDriver(options);
         driver.get("https://qa-scooter.praktikum-services.ru/");
+    }
+
+    @Test
+    public void FAQSectionTest() {
         HomePage objHomePage = new HomePage(driver);
         objHomePage.waitForPageLoad();
         objHomePage.scrollToFAQSection();

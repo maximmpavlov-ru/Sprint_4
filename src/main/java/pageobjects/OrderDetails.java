@@ -11,7 +11,7 @@ public class OrderDetails {
 
     private final WebDriver driver;
     //поле ввода даты начала аредны
-    private final By rentalStartDate = By.xpath(".//*[contains(@class, 'Input_Responsible__1jDKN') and contains(@placeholder, 'Когда')]");
+    private final By rentalStartDate = By.xpath(".//*[contains(@class, 'Input_Responsible') and contains(@placeholder, 'Когда')]");
     //поле выбора длительности аренды
     private final By rentalPeriod = By.className("Dropdown-arrow");
     //чекбокс для черного цвета самоката
@@ -21,7 +21,7 @@ public class OrderDetails {
     //поле ввода комментария
     private final By comment = By.xpath(".//*[@placeholder=\"Комментарий для курьера\"]");
     //кнопка "Заказать"
-    private final By orderButton = By.xpath(".//*[text()='Заказать' and contains(@class, 'Button_Middle__1CSJM')]");
+    private final By orderButton = By.xpath(".//*[text()='Заказать' and (contains(@class, 'Button_Middle') or contains(@class, 'Button_Large'))]");
 
     public OrderDetails(WebDriver driver) {
         this.driver = driver;
@@ -45,7 +45,7 @@ public class OrderDetails {
     }
 
     //метод для нажатия на кнопку "Заказать"
-    public void clickOrderButton() {
+    public void clickButtonOrder() {
         driver.findElement(orderButton).click();
     }
 

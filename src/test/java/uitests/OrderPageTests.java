@@ -21,8 +21,9 @@ public class OrderPageTests {
     private final String clientRentalPeriod;
     private final String clientScooterColor;
     private final String clientComment;
+    private final String clientXpath;
 
-    public OrderPageTests(String clientName, String clientSurname, String clientAddress, String clientMetroStation, String clientPhone, String clientRentalStartDate, String clientRentalPeriod, String clientScooterColor, String clientComment) {
+    public OrderPageTests(String clientName, String clientSurname, String clientAddress, String clientMetroStation, String clientPhone, String clientRentalStartDate, String clientRentalPeriod, String clientScooterColor, String clientComment, String clientXpath) {
         this.clientName = clientName;
         this.clientSurname = clientSurname;
         this.clientAddress = clientAddress;
@@ -32,15 +33,16 @@ public class OrderPageTests {
         this.clientRentalPeriod = clientRentalPeriod;
         this.clientScooterColor = clientScooterColor;
         this.clientComment = clientComment;
+        this.clientXpath = clientXpath;
     }
 
     @Parameterized.Parameters
     public static Object[][] setOrderDetails() {
         return new Object[][]{
-                {"Андрей", "Васильев", "Улица Большая Лубянка, 1 ст1", "Лубянка", "89136432599", "01.03.2025", "трое суток", "серая безысходность", ""},
-                {"Иван", "Кузнецов", "Фурманный переулок, 9/12", "Беговая", "89136432523", "02.03.2025", "сутки", "чёрный жемчуг", "Вдумчивый комментарий"},
-                //Набор данных с Иваном Кузнецовым выше падает по причине наличия символа "/" в адресе, видимо это один из багов, о котором говорилось в задании.
-                {"Алёша", "Попович", "Мосфильмовская улица, 1 ст1", "Студенческая", "89131112599", "25.02.2025", "двое суток", "чёрный жемчуг, серая безысходность", "Сказочные чаевые"},
+                {"Андрей", "Васильев", "Улица Большая Лубянка, 1 ст1", "Лубянка", "89136432599", "01.03.2025", "трое суток", "серая безысходность", "", ".//*[contains(@class,'Button_Button') and not (contains (@class,'Middle')) and not (contains (@class,'Large'))and contains(text(), 'Заказать')]"},
+                {"Иван", "Кузнецов", "Фурманный переулок, 9к12", "Беговая", "89136432523", "02.03.2025", "сутки", "чёрный жемчуг", "Вдумчивый комментарий", ".//*[(contains (@class,'Middle') or contains (@class,'Large')) and contains(text(), 'Заказать')]"},
+                {"Алёша", "Попович", "Мосфильмовская улица, 1 ст1", "Студенческая", "89131112599", "25.02.2025", "двое суток", "чёрный жемчуг, серая безысходность", "Сказочные чаевые", ".//*[(contains (@class,'Middle') or contains (@class,'Large')) and contains(text(), 'Заказать')]"},
+                {"Михаил", "Орлов", "Ленина 2", "Новокосино", "89131112779", "25.03.2025", "пятеро суток", "серая безысходность", "Какой-то ненужный комментарий", ".//*[contains(@class,'Button_Button') and not (contains (@class,'Middle')) and not (contains (@class,'Large'))and contains(text(), 'Заказать')]"},
         };
     }
 
@@ -55,10 +57,11 @@ public class OrderPageTests {
     }
 
     @Test
-    public void orderTestWithButtonOnTheTop() {
+    public void orderTests() {
         HomePage objHomePage = new HomePage(driver);
         objHomePage.waitForPageLoad();
-        objHomePage.clickOrderButtonOnTheTop();
+        objHomePage.agreeWithCookieGathering();
+        objHomePage.clickButtonOrderProvidedFromParameters(clientXpath);
 
         //Заполняем данные на экране "Для кого самокат"
         OrderContacts objOrderContacts = new OrderContacts(driver);
@@ -70,37 +73,7 @@ public class OrderPageTests {
         OrderDetails objOrderDetails = new OrderDetails(driver);
         objOrderDetails.waitForPageLoad();
         objOrderDetails.inputOrderDetails(clientRentalStartDate, clientRentalPeriod, clientScooterColor, clientComment);
-        objOrderDetails.clickOrderButton();
-
-        //Подтверждаем заказ
-        OrderConfirmation objOrderConfirmation = new OrderConfirmation(driver);
-        objOrderConfirmation.waitForPageLoad();
-        objOrderConfirmation.clickButtonConfirm();
-
-        //Проверяем то, что заказ получен
-        ConfirmedOrderDetails objConfirmedOrderDetails = new ConfirmedOrderDetails(driver);
-        objConfirmedOrderDetails.waitForPageLoad();
-        objConfirmedOrderDetails.checkOrderConfirmation();
-    }
-
-    @Test
-    public void orderTestWithButtonInTheMiddle() {
-        HomePage objHomePage = new HomePage(driver);
-        objHomePage.waitForPageLoad();
-        objHomePage.scrollToOrderButtonInTheMiddle();
-        objHomePage.clickOrderButtonInTheMiddle();
-
-        //Заполняем данные на экране "Для кого самокат"
-        OrderContacts objOrderContacts = new OrderContacts(driver);
-        objOrderContacts.waitForPageLoad();
-        objOrderContacts.inputOrderContactDetails(clientName, clientSurname, clientAddress, clientMetroStation, clientPhone);
-        objOrderContacts.clickButtonNext();
-
-        //Заполняем данные на экране "Про аренду"
-        OrderDetails objOrderDetails = new OrderDetails(driver);
-        objOrderDetails.waitForPageLoad();
-        objOrderDetails.inputOrderDetails(clientRentalStartDate, clientRentalPeriod, clientScooterColor, clientComment);
-        objOrderDetails.clickOrderButton();
+        objOrderDetails.clickButtonOrder();
 
         //Подтверждаем заказ
         OrderConfirmation objOrderConfirmation = new OrderConfirmation(driver);
